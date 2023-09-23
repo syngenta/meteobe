@@ -31,7 +31,7 @@ dependencies = [
 
 [tool.setuptools]
 include-package-data = true
-packages = ["meteobe"]
+packages = ["src"]
 
 [project.urls]
 "Homepage" = "https://github.com/syngenta/meteobe"
