@@ -13,7 +13,7 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name="meteobe",
-    version="0.0.1",
+    version="0.1.0",
     packages=["src"],
     include_package_data=True,
     package_data={"src/config": ["*.ini", "*.json"]},
