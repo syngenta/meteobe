@@ -14,6 +14,16 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 setup(
     name="meteobe",
     version="0.1.0",
+    description="Meteoblue environmental data extractor",
+    long_description_content_type="text/markdown",
+    author="Vivian Lee",
+    license="MIT",
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    keywords=["weather data", "soil data"],
     packages=["src"],
     include_package_data=True,
     package_data={"src/config": ["*.ini", "*.json"]},
@@ -22,5 +32,6 @@ setup(
         "pandas",
         "json",
         "configparser",
+        "configupdater",
         "meteoblue_dataset_sdk"]
-    )
+)

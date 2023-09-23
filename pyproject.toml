@@ -8,7 +8,7 @@ version = "0.1.0"
 authors = [
   { name="Vivian Lee", email="vivianlee.southern@gmail.com" },
 ]
-description = "A package that extract weather and soil data from meteoblue REST API"
+description = "A package that extracts weather and soil data from meteoblue REST API"
 license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.8"
@@ -25,6 +25,7 @@ dependencies = [
     "pandas",
     "json",
     "configparser",
+    "configupdater",
     "meteoblue_dataset_sdk"
     ]
 
