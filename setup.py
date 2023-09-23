@@ -15,6 +15,7 @@ setup(
     name="meteobe",
     version="0.1.0",
     description="Meteoblue environmental data extractor",
+    long_description=long_description,
     long_description_content_type="text/markdown",
     author="Vivian Lee",
     license="MIT",
