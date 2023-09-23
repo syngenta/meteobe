@@ -1,0 +1,72 @@
+[
+	{
+		"domain": "NEMSGLOBAL",
+		"timeResolution": "daily",
+		"codes": [
+			{"code": 52, "level": "2 m above gnd", "aggregation": "max"},
+			{"code": 52, "level": "2 m above gnd", "aggregation": "min"},
+			{"code": 52, "level": "2 m above gnd", "aggregation": "mean"},
+			{"code": 71, "level": "sfc", "aggregation": "mean"},
+			{"code": 75, "level": "high cld lay", "aggregation": "mean"},
+			{"code": 74, "level": "mid cld lay", "aggregation": "mean"},
+			{"code": 73, "level": "low cld lay", "aggregation": "mean"},
+			{"code": 191, "level": "sfc", "aggregation": "sum"},
+			{"code": 204, "level": "sfc", "aggregation": "mean"},
+			{"code": 258, "level": "sfc", "aggregation": "mean"},
+			{"code": 256, "level": "sfc", "aggregation": "mean"},
+			{"code": 261, "level": "sfc", "aggregation": "sum"},
+			{"code": 85, "level": "0-10 cm down", "aggregation": "max"},
+			{"code": 85, "level": "0-10 cm down", "aggregation": "min"},
+			{"code": 85, "level": "0-10 cm down", "aggregation": "mean"},
+			{"code": 144, "level": "0-10 cm down", "aggregation": "max"},
+			{"code": 144, "level": "0-10 cm down", "aggregation": "min"},
+			{"code": 144, "level": "0-10 cm down", "aggregation": "mean"},
+			{"code": 56, "level": "2 m above gnd", "aggregation": "max"},
+			{"code": 56, "level": "2 m above gnd", "aggregation": "min"},
+			{"code": 56, "level": "2 m above gnd", "aggregation": "mean"}
+		]
+	},
+	{
+		"domain": "NEMSGLOBAL",
+		"timeResolution": "daily",
+		"codes": [
+			{"code": 11, "level": "2 m elevation corrected", "aggregation": "max"},
+			{"code": 11, "level": "2 m elevation corrected", "aggregation": "min"},
+			{"code": 11, "level": "2 m elevation corrected", "aggregation": "mean"}
+		]
+	},
+	{
+		"domain": "CHIRPS2",
+		"timeResolution": "daily",
+		"codes": [
+			{"code": 61, "level": "sfc", "aggregation": "sum"}
+		]
+	},
+	{
+		"domain": "ERA5T",
+		"timeResolution": "daily",
+		"codes": [
+			{"code": 32, "level": "10 m above gnd", "aggregation": "max"},
+			{"code": 32, "level": "10 m above gnd", "aggregation": "min"},
+			{"code": 32, "level": "10 m above gnd", "aggregation": "mean"},
+			{"code": 735, "level": "10 m above gnd"}
+		]
+	},
+	{
+		"domain": "ERA5",
+		"gapFillDomain": null,
+		"timeResolution": "hourly",
+		"codes": [
+			{
+			"code": 721,
+			"level": "sfc"
+			}
+		],
+		"transformations": [
+			{
+			"type": "aggregateDaily",
+			"aggregation": "mean"
+			}
+		]
+	}
+ ]

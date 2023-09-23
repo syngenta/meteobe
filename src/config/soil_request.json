@@ -1,0 +1,142 @@
+[
+	{
+	    "domain": "SOILGRIDS2",
+	    "codes": [
+			{
+				"code": 808,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 30
+
+			},
+			{
+				"code": 809,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 30
+			},
+			{
+				"code": 803,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 30
+			},
+			{
+				"code": 807,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 30
+			},
+			{
+				"code": 811,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 30
+			},
+			{
+				"code": 838,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 30
+			},
+			{
+				"code": 837,
+				"level": "0-30 cm"
+			},
+			{
+				"code": 805,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 30
+			},
+			{
+				"code": 804,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 30
+			},
+			{
+				"code": 817,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 30
+			},
+			{
+				"code": 812,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 30
+			}
+	    ]
+	},
+	{
+	    "domain": "SOILGRIDS2",
+	    "codes": [
+			{
+				"code": 808,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 60
+
+			},
+			{
+				"code": 809,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 60
+			},
+			{
+				"code": 803,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 60
+			},
+			{
+				"code": 807,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 60
+			},
+			{
+				"code": 811,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 60
+			},
+			{
+				"code": 838,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 60
+			},
+			{
+				"code": 837,
+				"level": "0-30 cm"
+			},
+			{
+				"code": 805,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 60
+			},
+			{
+				"code": 804,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 60
+			},
+			{
+				"code": 817,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 60
+			},
+			{
+				"code": 812,
+				"level": "aggregated",
+				"startDepth": 0,
+				"endDepth": 60
+			}
+	    ]
+	}
+]

@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "meteobe"
+version = "0.0.1"
+authors = [
+  { name="Vivian Lee", email="vivianlee.southern@gmail.com" },
+]
+description = "A package that extract weather and soil data from meteoblue REST API"
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+keywords = ["weather", "soil"]
+
+dependencies = [
+    "pathlib",
+    "pandas",
+    "json",
+    "configparser",
+    "meteoblue_dataset_sdk"
+    ]
+
+[project.urls]
+"Homepage" = "https://github.com/syngenta/meteobe"
+"Bug Tracker" = "https://github.com/syngenta/meteobe/issues"
