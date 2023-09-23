@@ -12,7 +12,7 @@ import meteoblue_dataset_sdk
 from meteoblue_dataset_sdk.protobuf.dataset_pb2 import DatasetApiProtobuf
 
 import constants
-from config import ConfigUtil
+from configurator import ConfigUtil
 
 # data domains
 DOMAIN_NEMSGLOBAL = 'NEMSGLOBAL'

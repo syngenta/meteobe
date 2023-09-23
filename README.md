@@ -59,7 +59,7 @@ The INI file contains the following fields:
 ### Usage in Python
 
 The project provide a way to bulk extract environmental data from Meteoblue, it consists of two main functions:
-* config.py
+* configurator.py
   * This script can be used to set user information in the above section
   * It also provides clear_value() function to clear all the setting
 * meteoblue_data_extractor.py

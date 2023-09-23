@@ -1,5 +1,5 @@
 # Ini file path and name
-INI_FILE = '../config/mbe.ini'
+INI_FILE = 'config/mbe.ini'
 
 # Section names
 FILE_PATHS_SECTION = 'File_Paths'

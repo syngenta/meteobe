@@ -8,7 +8,7 @@ version = "0.1.1"
 authors = [
   { name="Vivian Lee", email="vivianlee.southern@gmail.com" },
 ]
-description = "A package that extracts weather and soil data from meteoblue REST API"
+description = "Meteoblue environmental data extractor"
 license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.8"
@@ -18,7 +18,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-keywords = ["weather", "soil"]
+keywords = ["weather data", "soil data"]
 
 dependencies = [
     "pathlib",
@@ -28,6 +28,10 @@ dependencies = [
     "configupdater",
     "meteoblue_dataset_sdk"
     ]
+
+[tool.setuptools]
+include-package-data = true
+packages = ["src"]
 
 [project.urls]
 "Homepage" = "https://github.com/syngenta/meteobe"
