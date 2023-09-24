@@ -1,0 +1,30 @@
+name: TestSuite
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  testing:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-20.04", "ubuntu-22.04", "macos-12", "windows-2022"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+    name: "Python ${{ matrix.python-version }} on ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install .
+      # TODO: Add tests
+      # - name: Run Tests
+      #   run: python -m pytest -v
