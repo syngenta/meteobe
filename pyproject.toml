@@ -5,29 +5,26 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "meteobe"
 version = "0.1.1"
-authors = [
-  { name="Vivian Lee", email="vivianlee.southern@gmail.com" },
-]
+authors = [{ name = "Vivian Lee", email = "vivianlee.southern@gmail.com" }]
 description = "Meteoblue environmental data extractor"
 license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
 ]
 
 keywords = ["weather data", "soil data"]
 
 dependencies = [
-    "pathlib",
-    "pandas",
-    "json",
-    "configparser",
-    "configupdater",
-    "meteoblue_dataset_sdk"
-    ]
+  "pathlib",
+  "pandas",
+  "configparser",
+  "configupdater",
+  "meteoblue_dataset_sdk",
+]
 
 [tool.setuptools]
 include-package-data = true
