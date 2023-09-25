@@ -19,7 +19,6 @@ It also helps to select best dataset to use based on the country code.
 In order to run the Python scripts successfully, you will need to install a Python IDE and the following libraries:
 
 * pandas
-* json
 * pathlib 
 * configparser
 * configupdater
@@ -78,10 +77,8 @@ R project is provided to allow running Python scripts from RStudio GUI. First op
 
 
 ## Roadmap
-- [x] Publish the repo to Syngenta internal users
-- [x] Add R code example to call Python Scripts
-- [ ] Remove CE Hub related content
-- [ ] Make the repo available to public
+- [] Add test codes
+- [] Enlarge JSON files scope
 
 
 ## Contact
