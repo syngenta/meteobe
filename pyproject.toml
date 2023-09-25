@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "meteobe"
-version = "0.1.1"
+version = "0.1.2"
 authors = [{ name = "Vivian Lee", email = "vivianlee.southern@gmail.com" }]
 description = "Meteoblue environmental data extractor"
 license = { file = "LICENSE" }
@@ -28,7 +28,6 @@ dependencies = [
 
 [tool.setuptools]
 include-package-data = true
-packages = ["src"]
 
 [project.urls]
 "Homepage" = "https://github.com/syngenta/meteobe"
