@@ -1,7 +1,7 @@
 """Module to write and read user specific properties to mbe.ini file"""
 import configparser
 import re
-import constants as c
+import constants
 from configupdater import ConfigUpdater
 
 
@@ -78,14 +78,14 @@ class ConfigUtil:
         Remove some user specific fields
         :return: None
         """
-        filepath_sec_clear_lst: dict = {c.INPUT_FILE_DIR: "", c.OUTPUT_FILE_DIR: "",
-                                        c.SOURCE_DATA_FILENAME: "", c.SHEET_NAME: ""}
-        meteoblue_sec_clear_lst: dict = {c.API_KEY: "", c.ID_COL: "", c.LATITUDE_COL: "",
-                                         c.LONGITUDE_COL: "", c.COUNTRY_CODE_COL: "", c.USER_INTERESTED_DATE_COLS: ""}
+        filepath_sec_clear_lst: dict = {constants.INPUT_FILE_DIR: "", constants.OUTPUT_FILE_DIR: "",
+                                        constants.SOURCE_DATA_FILENAME: "", constants.SHEET_NAME: ""}
+        meteoblue_sec_clear_lst: dict = {constants.API_KEY: "", constants.ID_COL: "", constants.LATITUDE_COL: "",
+                                         constants.LONGITUDE_COL: "", constants.COUNTRY_CODE_COL: "", constants.USER_INTERESTED_DATE_COLS: ""}
 
         print('Clearing the user specific values in the config ini file...')
-        self.set_value(c.FILE_PATHS_SECTION, filepath_sec_clear_lst)
-        self.set_value(c.METEOBLUE_SECTION, meteoblue_sec_clear_lst)
+        self.set_value(constants.FILE_PATHS_SECTION, filepath_sec_clear_lst)
+        self.set_value(constants.METEOBLUE_SECTION, meteoblue_sec_clear_lst)
 
 
 if __name__ == "__main__":
@@ -109,35 +109,35 @@ if __name__ == "__main__":
 
     filepath_sec_d: dict = {}
     meteoblue_sec_d: dict = {}
-    config: ConfigUtil = ConfigUtil(c.INI_FILE)
+    config: ConfigUtil = ConfigUtil(constants.INI_FILE)
 
     while True:
         o = input("Type an option from the above list, e.g. 1, 2, 12 or exit: ")
         if o == '1':
-            filepath_sec_d.update({c.INPUT_FILE_DIR: input("Please type the input file directory: ")})
+            filepath_sec_d.update({constants.INPUT_FILE_DIR: input("Please type the input file directory: ")})
         elif o == '2':
-            filepath_sec_d.update({c.OUTPUT_FILE_DIR: input("Please type the output file directory: ")})
+            filepath_sec_d.update({constants.OUTPUT_FILE_DIR: input("Please type the output file directory: ")})
         elif o == '3':
-            filepath_sec_d.update({c.SOURCE_DATA_FILENAME: input("Please type the source data file name: ")})
+            filepath_sec_d.update({constants.SOURCE_DATA_FILENAME: input("Please type the source data file name: ")})
         elif o == '4':
-            filepath_sec_d.update({c.SHEET_NAME: input("Please type the sheet name if source file is Excel: ")})
+            filepath_sec_d.update({constants.SHEET_NAME: input("Please type the sheet name if source file is Excel: ")})
         elif o == '5':
-            meteoblue_sec_d.update({c.API_KEY: input("Please type the API key for Meteoblue API call: ")})
+            meteoblue_sec_d.update({constants.API_KEY: input("Please type the API key for Meteoblue API call: ")})
         elif o == '6':
-            meteoblue_sec_d.update({c.ID_COL: input("Please type the ID column name: ")})
+            meteoblue_sec_d.update({constants.ID_COL: input("Please type the ID column name: ")})
         elif o == '7':
-            meteoblue_sec_d.update({c.LATITUDE_COL: input("Please type the latitude column name: ")})
+            meteoblue_sec_d.update({constants.LATITUDE_COL: input("Please type the latitude column name: ")})
         elif o == '8':
-            meteoblue_sec_d.update({c.LONGITUDE_COL: input("Please type the longitude column name: ")})
+            meteoblue_sec_d.update({constants.LONGITUDE_COL: input("Please type the longitude column name: ")})
         elif o == '9':
-            meteoblue_sec_d.update({c.COUNTRY_CODE_COL: input("Please type the country code column name: ")})
+            meteoblue_sec_d.update({constants.COUNTRY_CODE_COL: input("Please type the country code column name: ")})
         elif o == '10':
-            meteoblue_sec_d.update({c.USER_INTERESTED_DATE_COLS: input(
+            meteoblue_sec_d.update({constants.USER_INTERESTED_DATE_COLS: input(
                 "Please type the comma separated list of dates columns: ")})
         elif o == '11':
-            meteoblue_sec_d.update({c.START_DATE_OFFSET: input("Please type the start date offset: ")})
+            meteoblue_sec_d.update({constants.START_DATE_OFFSET: input("Please type the start date offset: ")})
         elif o == '12':
-            meteoblue_sec_d.update({c.END_DATE_OFFSET: input("Please type the end date offset: ")})
+            meteoblue_sec_d.update({constants.END_DATE_OFFSET: input("Please type the end date offset: ")})
         elif o == 'exit':
             print("\nPlease review the input values before exiting: ")
             print(f'File path section: {filepath_sec_d}')
@@ -150,6 +150,6 @@ if __name__ == "__main__":
             config.clear_value()
 
     if len(filepath_sec_d) > 0:
-        config.set_value(c.FILE_PATHS_SECTION, filepath_sec_d)
+        config.set_value(constants.FILE_PATHS_SECTION, filepath_sec_d)
     if len(meteoblue_sec_d) > 0:
-        config.set_value(c.METEOBLUE_SECTION, meteoblue_sec_d)
+        config.set_value(constants.METEOBLUE_SECTION, meteoblue_sec_d)
