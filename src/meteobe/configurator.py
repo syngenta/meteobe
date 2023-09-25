@@ -2,6 +2,7 @@
 __package__ = 'meteobe'
 import configparser
 import re
+import os
 from . import constants
 from configupdater import ConfigUpdater
 
@@ -9,7 +10,7 @@ from configupdater import ConfigUpdater
 class ConfigUtil:
 
     def __init__(self, ini_file_name: str):
-        self.ini_file_name = ini_file_name
+        self.ini_file_name = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), ini_file_name))
         self.config = configparser.ConfigParser()
         self.config.read(self.ini_file_name)
 
@@ -72,6 +73,7 @@ class ConfigUtil:
         for key in key_value:
             updater[section][key].value = key_value[key]
 
+        print(f'Updating {self.ini_file_name} file with {key_value}.')
         updater.update_file()
 
     def clear_value(self):
