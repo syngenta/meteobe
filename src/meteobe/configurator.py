@@ -87,69 +87,75 @@ class ConfigUtil:
         self.set_value(constants.FILE_PATHS_SECTION, filepath_sec_clear_lst)
         self.set_value(constants.METEOBLUE_SECTION, meteoblue_sec_clear_lst)
 
+    def run(self):
+        print("The config file contains the following properties:\n"
+              "===================================================================================\n"
+              "|| 1: input file directory - the input file path                                 ||\n"
+              "|| 2: output file directory - the output file path                               ||\n"
+              "|| 3: source data file name -  use this file to retrieve Meteoblue data          ||\n"
+              "|| 4: sheet name - only if the source file is an Excel file                      ||\n"
+              "|| 5: api key - to call Meteoblue REST API                                       ||\n"
+              "|| 6: id column - the id column in your input file                               ||\n"
+              "|| 7: latitude column - the latitude column in your input file                   ||\n"
+              "|| 8: longitude column - the longitude column in your input file                 ||\n"
+              "|| 9: country code column - the Alpha-2 country code                             ||\n"
+              "|| 10: dates columns - comma separated list of dates columns in your input file  ||\n"
+              "|| 11: start date offset - number of dates as offset to start date               ||\n"
+              "|| 12: end date offset - number of dates as offset to end date                   ||\n"
+              "|| exit: to exit the config file setup                                           ||\n"
+              "|| clear: to clear up all the user properties                                    ||\n"
+              "===================================================================================")
+
+        filepath_sec_d: dict = {}
+        meteoblue_sec_d: dict = {}
+
+        while True:
+            o = input("Type an option from the above list, e.g. 1, 2, 12 or exit: ")
+            if o == '1':
+                filepath_sec_d.update({constants.INPUT_FILE_DIR: input("Please type the input file directory: ")})
+            elif o == '2':
+                filepath_sec_d.update({constants.OUTPUT_FILE_DIR: input("Please type the output file directory: ")})
+            elif o == '3':
+                filepath_sec_d.update(
+                    {constants.SOURCE_DATA_FILENAME: input("Please type the source data file name: ")})
+            elif o == '4':
+                filepath_sec_d.update(
+                    {constants.SHEET_NAME: input("Please type the sheet name if source file is Excel: ")})
+            elif o == '5':
+                meteoblue_sec_d.update({constants.API_KEY: input("Please type the API key for Meteoblue API call: ")})
+            elif o == '6':
+                meteoblue_sec_d.update({constants.ID_COL: input("Please type the ID column name: ")})
+            elif o == '7':
+                meteoblue_sec_d.update({constants.LATITUDE_COL: input("Please type the latitude column name: ")})
+            elif o == '8':
+                meteoblue_sec_d.update({constants.LONGITUDE_COL: input("Please type the longitude column name: ")})
+            elif o == '9':
+                meteoblue_sec_d.update(
+                    {constants.COUNTRY_CODE_COL: input("Please type the country code column name: ")})
+            elif o == '10':
+                meteoblue_sec_d.update({constants.USER_INTERESTED_DATE_COLS: input(
+                    "Please type the comma separated list of dates columns: ")})
+            elif o == '11':
+                meteoblue_sec_d.update({constants.START_DATE_OFFSET: input("Please type the start date offset: ")})
+            elif o == '12':
+                meteoblue_sec_d.update({constants.END_DATE_OFFSET: input("Please type the end date offset: ")})
+            elif o == 'exit':
+                print("\nPlease review the input values before exiting: ")
+                print(f'File path section: {filepath_sec_d}')
+                print(f'Meteoblue section: {meteoblue_sec_d}')
+                before_exit = input("\nTo reset a value please type an option again, to exit type 'y': ")
+                if before_exit == 'y':
+                    break
+            elif o == 'clear':
+                print("\nRemoving all the user properties...")
+                self.clear_value()
+
+        if len(filepath_sec_d) > 0:
+            self.set_value(constants.FILE_PATHS_SECTION, filepath_sec_d)
+        if len(meteoblue_sec_d) > 0:
+            self.set_value(constants.METEOBLUE_SECTION, meteoblue_sec_d)
+
 
 if __name__ == "__main__":
-    print("The config file contains the following properties:\n"
-          "===================================================================================\n"
-          "|| 1: input file directory - the input file path                                 ||\n"
-          "|| 2: output file directory - the output file path                               ||\n"
-          "|| 3: source data file name -  use this file to retrieve Meteoblue data          ||\n"
-          "|| 4: sheet name - only if the source file is an Excel file                      ||\n"
-          "|| 5: api key - to call Meteoblue REST API                                       ||\n"
-          "|| 6: id column - the id column in your input file                               ||\n"
-          "|| 7: latitude column - the latitude column in your input file                   ||\n"
-          "|| 8: longitude column - the longitude column in your input file                 ||\n"
-          "|| 9: country code column - the Alpha-2 country code                             ||\n"
-          "|| 10: dates columns - comma separated list of dates columns in your input file  ||\n"
-          "|| 11: start date offset - number of dates as offset to start date               ||\n"
-          "|| 12: end date offset - number of dates as offset to end date                   ||\n"
-          "|| exit: to exit the config file setup                                           ||\n"
-          "|| clear: to clear up all the user properties                                  ||\n"
-          "===================================================================================")
-
-    filepath_sec_d: dict = {}
-    meteoblue_sec_d: dict = {}
     config: ConfigUtil = ConfigUtil(constants.INI_FILE)
-
-    while True:
-        o = input("Type an option from the above list, e.g. 1, 2, 12 or exit: ")
-        if o == '1':
-            filepath_sec_d.update({constants.INPUT_FILE_DIR: input("Please type the input file directory: ")})
-        elif o == '2':
-            filepath_sec_d.update({constants.OUTPUT_FILE_DIR: input("Please type the output file directory: ")})
-        elif o == '3':
-            filepath_sec_d.update({constants.SOURCE_DATA_FILENAME: input("Please type the source data file name: ")})
-        elif o == '4':
-            filepath_sec_d.update({constants.SHEET_NAME: input("Please type the sheet name if source file is Excel: ")})
-        elif o == '5':
-            meteoblue_sec_d.update({constants.API_KEY: input("Please type the API key for Meteoblue API call: ")})
-        elif o == '6':
-            meteoblue_sec_d.update({constants.ID_COL: input("Please type the ID column name: ")})
-        elif o == '7':
-            meteoblue_sec_d.update({constants.LATITUDE_COL: input("Please type the latitude column name: ")})
-        elif o == '8':
-            meteoblue_sec_d.update({constants.LONGITUDE_COL: input("Please type the longitude column name: ")})
-        elif o == '9':
-            meteoblue_sec_d.update({constants.COUNTRY_CODE_COL: input("Please type the country code column name: ")})
-        elif o == '10':
-            meteoblue_sec_d.update({constants.USER_INTERESTED_DATE_COLS: input(
-                "Please type the comma separated list of dates columns: ")})
-        elif o == '11':
-            meteoblue_sec_d.update({constants.START_DATE_OFFSET: input("Please type the start date offset: ")})
-        elif o == '12':
-            meteoblue_sec_d.update({constants.END_DATE_OFFSET: input("Please type the end date offset: ")})
-        elif o == 'exit':
-            print("\nPlease review the input values before exiting: ")
-            print(f'File path section: {filepath_sec_d}')
-            print(f'Meteoblue section: {meteoblue_sec_d}')
-            before_exit = input("\nTo reset a value please type an option again, to exit type 'y': ")
-            if before_exit == 'y':
-                break
-        elif o == 'clear':
-            print("\nRemoving all the user properties...")
-            config.clear_value()
-
-    if len(filepath_sec_d) > 0:
-        config.set_value(constants.FILE_PATHS_SECTION, filepath_sec_d)
-    if len(meteoblue_sec_d) > 0:
-        config.set_value(constants.METEOBLUE_SECTION, meteoblue_sec_d)
+    config.run()

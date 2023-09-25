@@ -528,8 +528,177 @@ class MeteoBlueConnector:
 
         return df_with_time
 
+    def extract(self):
+        config: ConfigUtil = ConfigUtil(constants.INI_FILE)
+        print(f'========== Loading property data from ini file {constants.INI_FILE} ==========')
 
-if __name__ == "__main__":
+        # Loads Meteoblue API key and constructs the endpoint url with the key
+        api_key = config.get_property(constants.METEOBLUE_SECTION, constants.API_KEY)
+        if not api_key:
+            print("No API key is specified, terminating the process")
+            sys.exit(1)
+
+        # Loads the directory where the input data file is
+        input_dir = config.get_property(constants.FILE_PATHS_SECTION, constants.INPUT_FILE_DIR)
+
+        # Loads the directory that stores output weather/soil/failed data files, if not exists create one
+        output_dir = config.get_property(constants.FILE_PATHS_SECTION, constants.OUTPUT_FILE_DIR)
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+            print(f'Output directory <{output_dir}> does not exist, it is now created!')
+
+        # Loads data file name
+        source_filename = config.get_property(constants.FILE_PATHS_SECTION, constants.SOURCE_DATA_FILENAME)
+        sheet_name = config.get_property(constants.FILE_PATHS_SECTION, constants.SHEET_NAME)
+
+        # Creating output file paths
+        data_file_name = os.path.splitext(source_filename)[0]
+        data_file_name_path = f'{output_dir}{os.path.sep}{data_file_name}'
+
+        # Weather and Soil related codes and variables files
+        codes_file = config.get_property(constants.FILE_PATHS_SECTION, constants.CODES_FILE)
+        weather_request_file = config.get_property(constants.FILE_PATHS_SECTION, constants.WEATHER_REQUEST_FILE)
+        soil_request_file = config.get_property(constants.FILE_PATHS_SECTION, constants.SOIL_REQUEST_FILE)
+
+        # Loading start and end offset values for Meteoblue
+        s_date_offset = int(config.get_property(constants.METEOBLUE_SECTION, constants.START_DATE_OFFSET))
+        e_date_offset = int(config.get_property(constants.METEOBLUE_SECTION, constants.END_DATE_OFFSET))
+
+        # Geolocation information
+        id_column = config.get_property(constants.METEOBLUE_SECTION, constants.ID_COL)
+        lat_column = config.get_property(constants.METEOBLUE_SECTION, constants.LATITUDE_COL)
+        lon_column = config.get_property(constants.METEOBLUE_SECTION, constants.LONGITUDE_COL)
+        country_code_column = config.get_property(constants.METEOBLUE_SECTION, constants.COUNTRY_CODE_COL)
+
+        # Check if start_date_offset > 0 set to = 0, if end_date_offset < 0 set to 0,
+        # any dates in between start and end dates are already covered!
+        if s_date_offset > 0:
+            print(f'start_date_offset should be set to less than 0, use 0 now instead of {s_date_offset}')
+            start_date_offset = 0
+        if e_date_offset < 0:
+            print(f'end_date_offset should be set to more than 0, use 0 now instead of {e_date_offset}')
+            end_date_offset = 0
+
+        # Loading user selected date columns
+        user_interested_date_cols: list = config.get_property(constants.METEOBLUE_SECTION,
+                                                              constants.USER_INTERESTED_DATE_COLS).split(',')
+
+        # Loading best domain for countries
+        precipitation_dom: dict = config.get_all_keys_properties(constants.BEST_PRECIPITATION_DOMAINS)
+        temperature_dom: dict = config.get_all_keys_properties(constants.BEST_TEMPERATURE_DOMAINS)
+        wind_dom: dict = config.get_all_keys_properties(constants.BEST_WIND_DOMAINS)
+
+        internal_cols: dict = {}
+        if not bool(country_code_column and country_code_column.strip()):
+            print('No country_code column is specified')
+            country_code_column = 'country_code'  # internal value, doesn't matter what it is
+            internal_cols[country_code_column] = 'BR'  # TODO this can not be hardcoded
+
+        print(f'\n=========== Validating column headers ==========')
+        data_df = MeteoBlueConnector.load_data(input_dir, source_filename, sheet_name, internal_cols)
+        MeteoBlueConnector.validate_col_names([id_column, lat_column, lon_column, country_code_column]
+                                              + user_interested_date_cols, data_df)
+
+        print(f'\n=========== Loading {source_filename} {sheet_name} into dataframe ==========')
+        mb: MeteoBlueConnector = MeteoBlueConnector(api_key, id_column, lat_column, lon_column,
+                                                    country_code_column, codes_file)
+        time_df: pd.DataFrame = mb.time_data(data_df, user_interested_date_cols, s_date_offset, e_date_offset)
+
+        # Getting weather data from Meteoblue
+        print(f'\n=========== Getting Weather Data from Meteoblue ==========')
+        weather_df: pd.DataFrame = pd.DataFrame()
+        failed_weather_df: pd.DataFrame = time_df.copy()
+
+        load_w_file = input("Load weather json from weather_request.json file? type y/n: ")
+        weather_queries = None
+        if load_w_file == 'y':
+            weather_queries = MeteoBlueConnector.load_json_from_file(weather_request_file)
+        for weather_counter in range(len(time_df)):
+            if load_w_file == 'n':
+                weather_queries = mb.build_weather_data_query_best_dataset(
+                    time_df[mb.country_code_col][weather_counter],
+                    precipitation_dom,
+                    temperature_dom, wind_dom)
+
+            weather_response = mb.get_meteoblue_data(time_df[mb.lat_col][weather_counter],
+                                                     time_df[mb.lon_col][weather_counter],
+                                                     time_df[START_DATE_COLUMN][weather_counter],
+                                                     time_df[END_DATE_COLUMN][weather_counter],
+                                                     weather_queries)
+            try:
+                response_dict = mb.convert_weather_json_to_dict(weather_response, id_column,
+                                                                time_df[mb.id_col][weather_counter])
+                each_field_df = pd.DataFrame(response_dict)
+                weather_df = weather_df.append(each_field_df, ignore_index=True)
+                failed_weather_df.drop([weather_counter], axis=0, inplace=True)
+            except Exception as exe:
+                print(f"Failed to extract weather data for latitude <{time_df[mb.lat_col][weather_counter]}> "
+                      f"and longitude <{time_df[mb.lon_col][weather_counter]}> with error: <{exe}>")
+
+        print(
+            f'<{len(failed_weather_df)}> out of <{len(time_df)}> records failed to extract weather data from Meteoblue')
+        weather_df.info()
+
+        # Getting Soil data from Meteoblue
+        print(f'\n=========== Getting Soil Data from Meteoblue ==========')
+        soil_df: pd.DataFrame = pd.DataFrame()
+        failed_soil_df: pd.DataFrame = time_df.copy()
+
+        load_s_file = input("Load soil json from soil_request.json file? type y/n: ")
+        if load_s_file == 'y':
+            soil_queries = MeteoBlueConnector.load_json_from_file(soil_request_file)
+        else:
+            soil_queries = [mb.build_soil_query(START_DEPTH_0, END_DEPTH_30),
+                            mb.build_soil_query(START_DEPTH_0, END_DEPTH_60)]
+
+        for soil_counter in range(len(time_df)):
+            soil_response = mb.get_meteoblue_data(time_df[mb.lat_col][soil_counter],
+                                                  time_df[mb.lon_col][soil_counter],
+                                                  time_df[START_DATE_COLUMN][soil_counter],
+                                                  time_df[END_DATE_COLUMN][soil_counter],
+                                                  soil_queries)
+            try:
+                response_dict = mb.convert_soil_json_to_dict(soil_response, id_column, time_df[mb.id_col][soil_counter])
+                each_field_df = pd.DataFrame(response_dict)
+                soil_df = soil_df.append(each_field_df, ignore_index=True)
+                failed_soil_df.drop([soil_counter], axis=0, inplace=True)
+            except Exception as exe:
+                print(f"Failed to extract soil data for latitude <{time_df[mb.lat_col][soil_counter]}> "
+                      f"and longitude <{time_df[mb.lon_col][soil_counter]}> with error: <{exe}>")
+
+        print(f'<{len(failed_soil_df)}> out of <{len(time_df)}> records failed to extract soil data from Meteoblue')
+        soil_df.info()
+
+        print(f'\n\n========== Writing Weather Data to {output_dir}{os.path.sep} ==========')
+        if len(weather_df) == 0:
+            print('No weather data was retrieved from Meteoblue, please check connections or API key')
+        else:
+            weather_df.drop_duplicates().to_csv(data_file_name_path + '_weather_data_only_best_domains.csv',
+                                                index=False,
+                                                header=weather_df.columns, encoding='UTF-8-sig')
+            print(f"Finished writing {data_file_name_path + '_weather_data_only_best_domains.csv'}")
+
+        if len(failed_weather_df) > 0:
+            failed_weather_df.drop_duplicates().to_csv(
+                data_file_name_path + '_weather_data_only_best_domains_failed.csv',
+                index=False, header=failed_weather_df.columns, encoding='UTF-8-sig')
+            print(f"Finished writing {data_file_name_path + '_weather_data_only_best_domains_failed.csv'} file")
+
+        print(f'\n========== Writing Soil Data to {output_dir}{os.path.sep} ==========')
+        if len(soil_df) == 0:
+            print('No soil data was retrieved from Meteoblue, please check connections or API key')
+        else:
+            soil_df.drop_duplicates().to_csv(data_file_name_path + '_soil_data_only.csv', index=False,
+                                             header=soil_df.columns, encoding='UTF-8-sig')
+            print(f"Finished writing {data_file_name_path + '_soil_data_only.csv'}")
+
+        if len(failed_soil_df) > 0:
+            failed_weather_df.drop_duplicates().to_csv(data_file_name_path + '_soil_data_only_failed.csv',
+                                                       index=False, header=failed_soil_df.columns, encoding='UTF-8-sig')
+            print(f"Finished writing {data_file_name_path + '_soil_data_only_failed.csv'} file")
+
+
+def extract():
 
     config: ConfigUtil = ConfigUtil(constants.INI_FILE)
     print(f'========== Loading property data from ini file {constants.INI_FILE} ==========')
@@ -694,3 +863,7 @@ if __name__ == "__main__":
         failed_weather_df.drop_duplicates().to_csv(data_file_name_path + '_soil_data_only_failed.csv',
                                                    index=False, header=failed_soil_df.columns, encoding='UTF-8-sig')
         print(f"Finished writing {data_file_name_path + '_soil_data_only_failed.csv'} file")
+
+
+if __name__ == "__main__":
+    extract()
