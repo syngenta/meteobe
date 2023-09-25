@@ -1,5 +1,7 @@
 # Ini file path and name
-INI_FILE = 'config/mbe.ini'
+import os
+
+INI_FILE = os.path.abspath(os.path.dirname(__file__)).join('config/mbe.ini')
 
 # Section names
 FILE_PATHS_SECTION = 'File_Paths'

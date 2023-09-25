@@ -558,8 +558,11 @@ class MeteoBlueConnector:
 
         # Weather and Soil related codes and variables files
         codes_file = config.get_property(constants.FILE_PATHS_SECTION, constants.CODES_FILE)
-        weather_request_file = config.get_property(constants.FILE_PATHS_SECTION, constants.WEATHER_REQUEST_FILE)
-        soil_request_file = config.get_property(constants.FILE_PATHS_SECTION, constants.SOIL_REQUEST_FILE)
+        weather_request_file_local = config.get_property(constants.FILE_PATHS_SECTION, constants.WEATHER_REQUEST_FILE)
+        soil_request_file_local = config.get_property(constants.FILE_PATHS_SECTION, constants.SOIL_REQUEST_FILE)
+
+        weather_request_file = os.path.abspath(os.path.dirname(__file__)).join(weather_request_file_local)
+        soil_request_file = os.path.abspath(os.path.dirname(__file__)).join(soil_request_file_local)
 
         # Loading start and end offset values for Meteoblue
         s_date_offset = int(config.get_property(constants.METEOBLUE_SECTION, constants.START_DATE_OFFSET))
