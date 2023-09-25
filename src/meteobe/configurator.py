@@ -1,7 +1,8 @@
 """Module to write and read user specific properties to mbe.ini file"""
+__package__ = 'meteobe'
 import configparser
 import re
-import constants
+from . import constants
 from configupdater import ConfigUpdater
 
 

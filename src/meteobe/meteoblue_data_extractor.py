@@ -11,7 +11,8 @@ from datetime import timedelta, datetime
 import meteoblue_dataset_sdk
 from meteoblue_dataset_sdk.protobuf.dataset_pb2 import DatasetApiProtobuf
 
-import constants
+__package__ = 'meteobe'
+from . import constants
 from configurator import ConfigUtil
 
 # data domains
