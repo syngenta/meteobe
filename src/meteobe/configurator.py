@@ -1,8 +1,11 @@
 """Module to write and read user specific properties to mbe.ini file"""
 __package__ = 'meteobe'
+
 import configparser
+import json
 import re
 import os
+
 from . import constants
 from configupdater import ConfigUpdater
 
@@ -84,7 +87,8 @@ class ConfigUtil:
         filepath_sec_clear_lst: dict = {constants.INPUT_FILE_DIR: "", constants.OUTPUT_FILE_DIR: "",
                                         constants.SOURCE_DATA_FILENAME: "", constants.SHEET_NAME: ""}
         meteoblue_sec_clear_lst: dict = {constants.API_KEY: "", constants.ID_COL: "", constants.LATITUDE_COL: "",
-                                         constants.LONGITUDE_COL: "", constants.COUNTRY_CODE_COL: "", constants.USER_INTERESTED_DATE_COLS: ""}
+                                         constants.LONGITUDE_COL: "", constants.COUNTRY_CODE_COL: "",
+                                         constants.USER_INTERESTED_DATE_COLS: ""}
 
         print('Clearing the user specific values in the config ini file...')
         self.set_value(constants.FILE_PATHS_SECTION, filepath_sec_clear_lst)
@@ -159,6 +163,25 @@ class ConfigUtil:
             self.set_value(constants.METEOBLUE_SECTION, meteoblue_sec_d)
 
 
+def normalise_file_path(relative_path: str) -> str:
+    return os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), relative_path))
+
+
+def load_json_from_file(json_file: str):
+    with open(normalise_file_path(json_file)) as f:
+        return json.load(f)
+
+
+def get_weather_json_request(file_name: str):
+    print(json.dumps(load_json_from_file(file_name), indent=2))
+
+
+def update_json(json_file: str):
+    data = load_json_from_file(json_file)
+
+
 if __name__ == "__main__":
-    config: ConfigUtil = ConfigUtil(constants.INI_FILE)
-    config.run()
+    # config: ConfigUtil = ConfigUtil(constants.INI_FILE)
+    # config.run()
+    print(constants)
+    # get_weather_json_request(constants.WEATHER_JSON_FILE)

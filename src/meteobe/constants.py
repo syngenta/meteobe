@@ -1,6 +1,10 @@
 # Ini file path and name
 INI_FILE = 'config/mbe.ini'
 
+CODE_JSON_FILE = 'config/codes.json'
+WEATHER_JSON_FILE = 'config/weather_request.json'
+SOIL_JSON_FILE = 'config/soil_request.json'
+
 # Section names
 FILE_PATHS_SECTION = 'File_Paths'
 METEOBLUE_SECTION = 'MeteoBlue'
