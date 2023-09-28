@@ -1,9 +1,9 @@
 # Ini file path and name
 INI_FILE = 'config/mbe.ini'
 
-CODE_JSON_FILE = 'config/codes.json'
-WEATHER_JSON_FILE = 'config/weather_request.json'
-SOIL_JSON_FILE = 'config/soil_request.json'
+CODE_JSON = 'config/codes.json'
+WEATHER_JSON = 'config/weather_request.json'
+SOIL_JSON = 'config/soil_request.json'
 
 # Section names
 FILE_PATHS_SECTION = 'File_Paths'
@@ -18,9 +18,6 @@ INPUT_FILE_DIR = 'input_file_dir'
 OUTPUT_FILE_DIR = 'output_file_dir'
 SOURCE_DATA_FILENAME = 'source_data_filename'
 SHEET_NAME = 'sheet_name'
-CODES_FILE = 'codes_file'
-WEATHER_REQUEST_FILE = 'weather_request_file'
-SOIL_REQUEST_FILE = 'soil_request_file'
 API_KEY = 'api_key'
 
 LATITUDE_COL = 'latitude_col'

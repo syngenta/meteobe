@@ -5,6 +5,7 @@ import configparser
 import json
 import re
 import os
+import sys
 
 from . import constants
 from configupdater import ConfigUpdater
@@ -13,7 +14,7 @@ from configupdater import ConfigUpdater
 class ConfigUtil:
 
     def __init__(self, ini_file_name: str):
-        self.ini_file_name = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), ini_file_name))
+        self.ini_file_name = normalise_file_path(ini_file_name)
         self.config = configparser.ConfigParser()
         self.config.read(self.ini_file_name)
 
@@ -172,16 +173,53 @@ def load_json_from_file(json_file: str):
         return json.load(f)
 
 
-def get_weather_json_request(file_name: str):
-    print(json.dumps(load_json_from_file(file_name), indent=2))
+def get_weather_json_request():
+    __get_json(constants.WEATHER_JSON)
 
 
-def update_json(json_file: str):
-    data = load_json_from_file(json_file)
+def get_soil_json_request():
+    __get_json(constants.SOIL_JSON)
+
+
+def get_code_json():
+    __get_json(constants.CODE_JSON)
+
+
+def update_weather_json_request(upload_weather_json_file: str):
+    __upload_json(constants.WEATHER_JSON, upload_weather_json_file)
+
+
+def update_soil_json_request(upload_soil_json_file: str):
+    __upload_json(constants.SOIL_JSON, upload_soil_json_file)
+
+
+def update_code_json(upload_code_json_file: str):
+    __upload_json(constants.CODE_JSON, upload_code_json_file)
+
+
+def __get_json(json_file: str):
+    print(json.dumps(load_json_from_file(json_file), indent=2))
+
+
+def __upload_json(existing_json_file: str, upload_json_file):
+    print(f'Please make a copy of {existing_json_file} before uploading the now file')
+    if input('To continue type y, to exit type n: ') == 'n':
+        sys.exit(0)
+
+    check_path(upload_json_file)
+    with open(normalise_file_path(existing_json_file), 'w') as f:
+        f.truncate()
+        f.write(json.dumps(load_json_from_file(upload_json_file), indent=2))
+
+
+def check_path(file_path: str):
+    if not os.path.isabs(file_path):
+        print(f'{file_path} is not a full path, please provide the absolute path')
+        sys.exit(1)
 
 
 if __name__ == "__main__":
     # config: ConfigUtil = ConfigUtil(constants.INI_FILE)
     # config.run()
-    print(constants)
-    # get_weather_json_request(constants.WEATHER_JSON_FILE)
+    get_weather_json_request()
+    # __upload_json('config/test_json.json', r'C:\Users\s1111696\OneDrive - Syngenta\Documents\Work\GitRepos\opensource\meteobe\src\meteobe\config\test_json_o.json')

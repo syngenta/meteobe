@@ -12,6 +12,7 @@ import meteoblue_dataset_sdk
 from meteoblue_dataset_sdk.protobuf.dataset_pb2 import DatasetApiProtobuf
 
 __package__ = 'meteobe'
+import configurator
 from . import constants
 from .configurator import ConfigUtil
 
@@ -559,15 +560,13 @@ def extract():
     data_file_name_path = f'{output_dir}{os.path.sep}{data_file_name}'
 
     # Weather and Soil related codes and variables files
-    codes_file_local = config.get_property(constants.FILE_PATHS_SECTION, constants.CODES_FILE)
-    weather_request_file_local = config.get_property(constants.FILE_PATHS_SECTION, constants.WEATHER_REQUEST_FILE)
-    soil_request_file_local = config.get_property(constants.FILE_PATHS_SECTION, constants.SOIL_REQUEST_FILE)
+    # codes_file_local = config.get_property(constants.FILE_PATHS_SECTION, constants.CODES_FILE)
+    # weather_request_file_local = config.get_property(constants.FILE_PATHS_SECTION, constants.WEATHER_REQUEST_FILE)
+    # soil_request_file_local = config.get_property(constants.FILE_PATHS_SECTION, constants.SOIL_REQUEST_FILE)
 
-    codes_file = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), codes_file_local))
-    weather_request_file = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                                                         weather_request_file_local))
-    soil_request_file = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                                                      soil_request_file_local))
+    codes_file = configurator.normalise_file_path(constants.CODE_JSON)
+    weather_request_file = configurator.normalise_file_path(constants.WEATHER_JSON)
+    soil_request_file = configurator.normalise_file_path(constants.SOIL_JSON)
 
     # Loading start and end offset values for Meteoblue
     s_date_offset = int(config.get_property(constants.METEOBLUE_SECTION, constants.START_DATE_OFFSET))

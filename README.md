@@ -19,7 +19,6 @@ It also helps to select best dataset to use based on the country code.
 In order to run the Python scripts successfully, you will need to install a Python IDE and the following libraries:
 
 * pandas
-* pathlib 
 * configparser
 * configupdater
 * meteoblue_dataset_sdk
@@ -39,9 +38,6 @@ The INI file contains the following fields:
 * output_file_dir: the file path of the output directory
 * source_data_filename: the name of your input file
 * sheet_name: in the case of Excel file, specify which sheet to load the data from
-* codes_file=..\config\codes.json , the code attributes value file from Meteoblue
-* weather_request_file=..\config\weather_request.json, a default Meteoblue weather JSON request file
-* soil_request_file=..\config\soil_request.json, a default Meteoblue soil JSON request file
 * latitude_col: latitude geo-location column
 * longitude_col: longitude geo-location column
 * country_code_col: the country code column in order to get the best domain dataset
@@ -64,6 +60,15 @@ The project provide a way to bulk extract environmental data from Meteoblue, it 
 * meteoblue_data_extractor.py
   * This is the main script to extract weather and soil data from Meteoblue
   * Please make sure you use config.py to set user specific properties before executing this script.
+* codes.json: 
+  * Call configurator.get_code_json() to see the content
+  * Call configurator.update_code_json(upload_code_json_file) to update new codes
+* soil_request.json: 
+  * Call configurator.get_soil_json_request() to see the content
+  * Call configurator.update_soil_json_request(upload_soil_json_file) to update new soil REST request JSON
+* weather_request.json: 
+  * Call configurator.get_weather_json_request() to see the content
+  * Call configurator.update_weather_json_request(upload_weather_json_file) to update new weather REST request JSON
 
 
 ### Usage in R
