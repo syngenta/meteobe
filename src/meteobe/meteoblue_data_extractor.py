@@ -533,7 +533,7 @@ class MeteoBlueConnector:
 
 def extract():
 
-    config: ConfigUtil = ConfigUtil(constants.INI_FILE)
+    config: ConfigUtil = ConfigUtil(configurator.normalise_file_path(constants.INI_FILE))
     print(f'========== Loading property data from ini file {constants.INI_FILE} ==========')
 
     # Loads Meteoblue API key and constructs the endpoint url with the key

@@ -221,5 +221,3 @@ def check_path(file_path: str):
 if __name__ == "__main__":
     config: ConfigUtil = ConfigUtil(constants.INI_FILE)
     config.run()
-    # get_weather_json_request()
-    # __upload_json('config/test_json.json', r'C:\Users\s1111696\OneDrive - Syngenta\Documents\Work\GitRepos\opensource\meteobe\src\meteobe\config\test_json_o.json')
