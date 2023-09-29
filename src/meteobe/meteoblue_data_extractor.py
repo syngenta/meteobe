@@ -533,7 +533,7 @@ class MeteoBlueConnector:
 
 def extract():
 
-    config: ConfigUtil = ConfigUtil(configurator.normalise_file_path(constants.INI_FILE))
+    config: ConfigUtil = ConfigUtil(constants.INI_FILE)
     print(f'========== Loading property data from ini file {constants.INI_FILE} ==========')
 
     # Loads Meteoblue API key and constructs the endpoint url with the key
@@ -559,11 +559,6 @@ def extract():
     data_file_name = os.path.splitext(source_filename)[0]
     data_file_name_path = f'{output_dir}{os.path.sep}{data_file_name}'
 
-    # Weather and Soil related codes and variables files
-    # codes_file_local = config.get_property(constants.FILE_PATHS_SECTION, constants.CODES_FILE)
-    # weather_request_file_local = config.get_property(constants.FILE_PATHS_SECTION, constants.WEATHER_REQUEST_FILE)
-    # soil_request_file_local = config.get_property(constants.FILE_PATHS_SECTION, constants.SOIL_REQUEST_FILE)
-
     codes_file = configurator.normalise_file_path(constants.CODE_JSON)
     weather_request_file = configurator.normalise_file_path(constants.WEATHER_JSON)
     soil_request_file = configurator.normalise_file_path(constants.SOIL_JSON)
@@ -582,10 +577,10 @@ def extract():
     # any dates in between start and end dates are already covered!
     if s_date_offset > 0:
         print(f'start_date_offset should be set to less than 0, use 0 now instead of {s_date_offset}')
-        start_date_offset = 0
+        s_date_offset = 0
     if e_date_offset < 0:
         print(f'end_date_offset should be set to more than 0, use 0 now instead of {e_date_offset}')
-        end_date_offset = 0
+        e_date_offset = 0
 
     # Loading user selected date columns
     user_interested_date_cols: list = config.get_property(constants.METEOBLUE_SECTION,
