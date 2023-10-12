@@ -72,9 +72,9 @@ There are also three JSON files in the config directory:
 
 
 ## Roadmap
-- [] Upgrade pandas to above 2.0
-- [] Add test codes
-- [] Enlarge weather and soil JSON scope
+- [ ] Upgrade pandas to above 2.0
+- [ ] Add test codes
+- [ ] Enlarge weather and soil JSON scope
 
 
 ## Contact
