@@ -475,7 +475,7 @@ class MeteoBlueConnector:
     @staticmethod
     def load_data(input_file_dir: str, source_data_filename: str, sheet: str, add_on_cols: dict) -> pd.DataFrame:
         # Loads data into a dataframe, the crop type can be corn, grape etc.
-        file_name_path = f'{input_file_dir}{os.path.sep}{source_data_filename}'
+        file_name_path = pathlib.Path(__file__).resolve().parent.parent.joinpath(input_file_dir).joinpath(source_data_filename)
         print(f'Loading data from file: {file_name_path}... ')
 
         if pathlib.Path(file_name_path).suffix == '.csv':
@@ -557,7 +557,7 @@ def extract():
 
     # Creating output file paths
     data_file_name = os.path.splitext(source_filename)[0]
-    data_file_name_path = f'{output_dir}{os.path.sep}{data_file_name}'
+    data_file_name_path = pathlib.Path(__file__).resolve().parent.parent.joinpath(output_dir).joinpath(data_file_name)
 
     codes_file = configurator.normalise_file_path(constants.CODE_JSON)
     weather_request_file = configurator.normalise_file_path(constants.WEATHER_JSON)
@@ -674,27 +674,27 @@ def extract():
     if len(weather_df) == 0:
         print('No weather data was retrieved from Meteoblue, please check connections or API key')
     else:
-        weather_df.drop_duplicates().to_csv(data_file_name_path + '_weather_data_only_best_domains.csv', index=False,
+        weather_df.drop_duplicates().to_csv(str(data_file_name_path) + '_weather_data_only_best_domains.csv', index=False,
                                             header=weather_df.columns, encoding='UTF-8-sig')
-        print(f"Finished writing {data_file_name_path + '_weather_data_only_best_domains.csv'}")
+        print(f"Finished writing {str(data_file_name_path) + '_weather_data_only_best_domains.csv'}")
 
     if len(failed_weather_df) > 0:
-        failed_weather_df.drop_duplicates().to_csv(data_file_name_path + '_weather_data_only_best_domains_failed.csv',
+        failed_weather_df.drop_duplicates().to_csv(str(data_file_name_path) + '_weather_data_only_best_domains_failed.csv',
                                                    index=False, header=failed_weather_df.columns, encoding='UTF-8-sig')
-        print(f"Finished writing {data_file_name_path + '_weather_data_only_best_domains_failed.csv'} file")
+        print(f"Finished writing {str(data_file_name_path) + '_weather_data_only_best_domains_failed.csv'} file")
 
     print(f'\n========== Writing Soil Data to {output_dir}{os.path.sep} ==========')
     if len(soil_df) == 0:
         print('No soil data was retrieved from Meteoblue, please check connections or API key')
     else:
-        soil_df.drop_duplicates().to_csv(data_file_name_path + '_soil_data_only.csv', index=False,
+        soil_df.drop_duplicates().to_csv(str(data_file_name_path) + '_soil_data_only.csv', index=False,
                                          header=soil_df.columns, encoding='UTF-8-sig')
-        print(f"Finished writing {data_file_name_path + '_soil_data_only.csv'}")
+        print(f"Finished writing {str(data_file_name_path) + '_soil_data_only.csv'}")
 
     if len(failed_soil_df) > 0:
-        failed_weather_df.drop_duplicates().to_csv(data_file_name_path + '_soil_data_only_failed.csv',
+        failed_weather_df.drop_duplicates().to_csv(str(data_file_name_path) + '_soil_data_only_failed.csv',
                                                    index=False, header=failed_soil_df.columns, encoding='UTF-8-sig')
-        print(f"Finished writing {data_file_name_path + '_soil_data_only_failed.csv'} file")
+        print(f"Finished writing {str(data_file_name_path) + '_soil_data_only_failed.csv'} file")
 
 
 if __name__ == "__main__":

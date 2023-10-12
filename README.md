@@ -71,24 +71,15 @@ The project provide a way to bulk extract environmental data from Meteoblue, it 
   * Call configurator.update_weather_json_request(upload_weather_json_file) to update new weather REST request JSON
 
 
-### Usage in R
-
-R project is provided to allow running Python scripts from RStudio GUI. First open RStudio project cehub.Rprojand then open script `py_run.R` contains code describing how to: 
-* Install&load the necessary R libraries   
-* Provide credentials
-* Python installation verification
-* Modify `ini` files from within R
-* Running python scripts from R
-
-
 ## Roadmap
+- [] Upgrade pandas to above 2.0
 - [] Add test codes
 - [] Enlarge JSON files scope
 
 
 ## Contact
-* Vivian Lee - Vivian.Lee@Syngenta.com
-* Mladen Cucak - Mladen.Cucak@syngenta.com
+* Vivian Lee - vivianlee.southern@gmail.com
+* Adam Tod - adam.tod@syngenta.com
 
 ## Acknowledgment
 Many thanks to the following colleagues who have helped to shape this project:
