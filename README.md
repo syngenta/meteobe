@@ -24,6 +24,7 @@ In order to run the Python scripts successfully, you will need to install a Pyth
 * meteoblue_dataset_sdk
 * setuptools
 
+The codebase has been developed and tested with pandas version 1.1.5 and lower, if you encounter error please use this version of pandas only.
 Please contact Meteoblue for an API key to submit REST API requests.
 
 ## Installation
